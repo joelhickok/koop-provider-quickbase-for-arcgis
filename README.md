@@ -1,6 +1,6 @@
 # Koop Provider - Quickbase for ArcGIS
 
-#### [Provider Overview](#Provider-Overview) | [Caveats](#Caveats) | [Usage](#Usage) | [How-To-Implement](#How To Implement) | [Usage](#Usage) | [Todo](#Todo) 
+#### [Provider Overview](#Provider-Overview) | [Caveats](#Caveats) | [Usage](#Usage) | [How To Implement](#How-To-Implement) | [Usage](#Usage) | [Todo](#Todo) 
 
 ---
 
