@@ -1,5 +1,4 @@
-// const providerQuickbase = require('./index.ts');
-import providerQuickbase from './index.ts' 
+import providerQuickbase from './index.ts'
 
 function initialize() {
   return {
@@ -7,5 +6,4 @@ function initialize() {
   };
 }
 
-// module.exports = initialize;
 export default initialize

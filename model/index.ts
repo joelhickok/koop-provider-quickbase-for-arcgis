@@ -1,18 +1,14 @@
 import dotenvx from '@dotenvx/dotenvx'
 import {QuickBase, type  QuickBaseOptions} from 'quickbase'
 import {type Request} from 'express'
-import {type FeatureCollection} from 'geojson'
-
+import bbox from '@turf/bbox'
 import {toSnakeCase, queryTable} from '../utils/index.ts'
 import {ConfigurationError} from '../utils/errors.ts'
 
-type QuickbaseRecord = Record<string, {
-    value: any | { name: string };
-}>[]
-
-interface KoopCollection extends FeatureCollection {
-    metadata: Record<string, any>,
-}
+// types
+import * as types from '../types/common.ts'
+import type {QuickBaseResponseGetFields,} from 'quickbase'
+import type {FeatureCollection, Feature, Geometry, GeoJsonProperties} from 'geojson'
 
 dotenvx.config()
 
@@ -41,14 +37,13 @@ export class Model {
         const selectQuery = req.query?.select ? req.query?.select as string : null
 
         // build key parameters from req.params and req.query
-        const PARAMS = {
+        const PARAMS: types.ILocalParams = {
             realm: req.params.host as string,
             appId,
             tableId,
             select: selectQuery?.split(',').map(d => Number(d)),
             coordinatesFID: req.query?.coords_fid as string || '9',
             isQuery: req.route.path.includes(':layer'),
-            tableInfo: undefined,
         }
 
         const qbOptions: QuickBaseOptions = {
@@ -69,7 +64,7 @@ export class Model {
         // nest logic inside a Promise so we can use async/await
         new Promise(async () => {
 
-            let rawData = []
+            let rawData: any[]
 
             const {name: tableName} = await quickbase.getTable({
                 appId,
@@ -83,7 +78,7 @@ export class Model {
                 + ` https://${qbOptions.realm}.quickbase.com/nav/app/${PARAMS.appId}/table/${PARAMS.tableId}`
 
             // Create custom FeatureCollection extended for Koop
-            const geojsonResponse: KoopCollection = {
+            const geojsonResponse: types.KoopCollection = {
                 type: 'FeatureCollection',
                 features: [],
                 metadata: {
@@ -92,8 +87,19 @@ export class Model {
                     name: tableName,
                     id: PARAMS.tableId,
                     description,
+                    displayField: 'name',
+                    idField: 'record_id',
+                    maxRecordCount: 1000,
                 },
             }
+
+            let fields: QuickBaseResponseGetFields[] = await quickbase.getFields({
+                tableId,
+            }).then((fields: QuickBaseResponseGetFields) => {
+                // filter QB field formula types
+                const filtered = fields.filter((f) => f.mode !== 'formula')
+                return filtered as unknown as QuickBaseResponseGetFields[]
+            })
 
             // geojsonResponse.metadata.geometryType = _.get(geojson, 'features[0].geometry.type')
 
@@ -107,13 +113,8 @@ export class Model {
                 })
             } else {
                 // If the user did not pass a list to select in the query, then
-                // request the full list of fields available for this Quickbase table
-                const fields = await quickbase.getFields({
-                    tableId,
-                })
-
-                // Map the field IDs so we can use them to select data as part of the query
-                const select = fields.map(f => f.id)
+                // map the field IDs so we can use them to select data as part of the query
+                const select = fields.map((f: QuickBaseResponseGetFields):number => f.id)
 
                 // make the actual table query
                 rawData = await queryTable({
@@ -123,7 +124,7 @@ export class Model {
                 })
 
                 // Translate to uniform GeoJSON Feature Collection
-                geojsonResponse.features = rawData.map((record: QuickbaseRecord) => {
+                geojsonResponse.features = rawData.map((record: types.QuickbaseRecord): Feature<Geometry, GeoJsonProperties> => {
                     // console.log(record)
 
                     const properties: { [key: string]: any; } = {
@@ -134,21 +135,23 @@ export class Model {
 
                     // map the Quickbase field names to the GeoJSON Feature properties
                     // use snake_case to rename the original field names
-                    fields.forEach(field => {
-                        // console.log(field)
-                        // console.log(record[field.id])
-                        const label = toSnakeCase(field.label as string)
 
-                        if (field.fieldType === 'user') {
-                            // field type user is an object with a name property
-                            // @ts-ignore
-                            properties[label] = record[field.id].value.name
-                        } else {
-                            // other fields have the value directly on the 'value' property
-                            properties[label] = record[field.id].value
-                        }
+                    fields
+                        .forEach((field: QuickBaseResponseGetFields) => {
+                            // console.log(field)
+                            // console.log(record[field.id])
+                            const label = toSnakeCase(field.label as string)
 
-                    })
+                            if (field.fieldType === 'user') {
+                                // field type user is an object with a name property
+                                // @ts-ignore
+                                properties[label] = record[field.id].value.name
+                            } else {
+                                // other fields have the value directly on the 'value' property
+                                properties[label] = record[field.id].value
+                            }
+
+                        })
 
                     // Get the coordinates value using the pre-defined ID and map the value
                     // @ts-ignore
@@ -170,8 +173,48 @@ export class Model {
                         properties,
                     }
                 })
-
             }
+
+            const bboxFlat = bbox(geojsonResponse as FeatureCollection)
+            // console.log(bboxFlat)
+
+            geojsonResponse.metadata.extent = [
+                [bboxFlat[2], bboxFlat[3]],
+                [bboxFlat[0], bboxFlat[1]],
+            ]
+            // console.log(geojsonResponse.metadata.extent)
+
+            //[ -122.03098, 34.75087, -105.99234, 46.24871 ]
+            // 	[[180,90],[-180,-90]]
+
+            geojsonResponse.metadata.limitExceeded = geojsonResponse.features.length > geojsonResponse.metadata.maxRecordCount
+
+            const mapFieldTypes = (type: string) => {
+                switch (type) {
+                    case 'text-multi-line':
+                        return 'String'
+                    case 'text':
+                        return 'String'
+                    case 'numeric':
+                        return 'Double'
+                    case 'recordid':
+                        return 'Integer'
+                    case 'date':
+                        return 'Date'
+                    default:
+                        return 'String'
+                }
+            }
+
+            geojsonResponse.metadata.fields = fields.map(f => {
+                return {
+                    name: toSnakeCase(f.label),
+                    type: mapFieldTypes(f.fieldType),
+                    alias: f.label,
+                    // length: f.properties.width || null,
+                }
+            })
+
             return callback(null, geojsonResponse)
         })
 

@@ -1,8 +1,21 @@
 # Koop Provider - Quickbase for ArcGIS
 
-#### [Provider Goals](#Provider-Goals) | [Usage](#Usage) | [How To Implement](#How-To-Implement) | [Usage](#Usage) | [Caveats](#Caveats) | [Todo](#Todo) 
+#### [Provider Summary](#Provider-Summary) | [Usage](#Usage) | [How To Implement](#How-To-Implement) | [Usage](#Usage) | [Caveats](#Caveats) | [Todo](#Todo) 
 
 ---
+
+### Quick Start
+`npm install --save @koopjs/koop-core koop-provider-quickbase`
+
+```js
+// update your Koop index or server js
+
+// register the plugin with koop
+const provider = require('koop-provider-quickbase')
+koop.register(provider)
+
+// Read docs for URL syntax to use the endpoint(s), such as required url query params
+```
 
 ### Provider Summary:
 
@@ -20,15 +33,6 @@ geospatial coordinates in a field/column so it can be mapped.
 
 **What is Quickbase?**  [Quickbase](https://www.quickbase.com) is a successful low-code PaaS serving both as a cloud-database and app builder.  It can
 be used by developers/testers through the [Builder Program](https://www.quickbase.com/builder-program) if you sign up for an account.
-
----
-
-### Provider Goals:
-1. Requests data from a Quickbase table.
-    * Must **specify** the Quickbase FID of the field containing coordinates in GCS.
-2. Transforms the data into normalized GeoJSON as a FeatureCollection.
-    * Koop outputs the GeoJSON data using the "Output" service of your choice (Feature Service by default but could be WMS, or others).
-3. Cooperates with Koop to enable a service that is friendly to many apps that ingest the endpoint.
 
 ---
 
@@ -55,7 +59,7 @@ This applies when using a FeatureLayer URL.  WMS is not documented or test yet
 - **Service Type:** The URL contains a type, such as `/FeatureServer`, and must also contain the layer ID, such as 0 or 1 when accessing data, such as `/FeatureServer/0`.
                           In most cases the ID will be 0 since there is one layer (advances could create a more sophisticated system using layer IDs, but does it make sense?).
 - **Query Parameters:** (only one is required)
-  - _coords_fid_: Identify and append the Field ID from Quickbase of the field containing GCS coordinates.  e.g. `?coords_fid=9`
+  - _coords_fid_ (required): Identify and append the Field ID from Quickbase of the field containing GCS coordinates.  e.g. `?coords_fid=9`
   - Others: Many parameters can be appended if they meet the spec, such as `&inSR=4326&outSR=3857` to ensure your web app puts your points at the right location.
 
 ##### Full Example:
