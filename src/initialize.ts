@@ -1,4 +1,4 @@
-import providerQuickbase from './index.ts'
+import providerQuickbase from './index.js'
 
 function initialize() {
   return {

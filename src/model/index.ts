@@ -2,11 +2,11 @@ import dotenvx from '@dotenvx/dotenvx'
 import {QuickBase, type  QuickBaseOptions} from 'quickbase'
 import {type Request} from 'express'
 import bbox from '@turf/bbox'
-import {toSnakeCase, queryTable} from '../utils/index.ts'
-import {ConfigurationError} from '../utils/errors.ts'
+import {toSnakeCase, queryTable} from '../utils/index.js'
+import {ConfigurationError} from '../utils/errors.js'
 
 // types
-import * as types from '../types/common.ts'
+import * as types from '../types/common.js'
 import type {QuickBaseResponseGetFields,} from 'quickbase'
 import type {FeatureCollection, Feature, Geometry, GeoJsonProperties} from 'geojson'
 
@@ -114,6 +114,7 @@ export class Model {
             } else {
                 // If the user did not pass a list to select in the query, then
                 // map the field IDs so we can use them to select data as part of the query
+                // @ts-expect-error
                 const select = fields.map((f: QuickBaseResponseGetFields):number => f.id)
 
                 // make the actual table query
@@ -140,14 +141,17 @@ export class Model {
                         .forEach((field: QuickBaseResponseGetFields) => {
                             // console.log(field)
                             // console.log(record[field.id])
+                            // @ts-expect-error
                             const label = toSnakeCase(field.label as string)
 
+                            // @ts-expect-error
                             if (field.fieldType === 'user') {
                                 // field type user is an object with a name property
                                 // @ts-ignore
                                 properties[label] = record[field.id].value.name
                             } else {
                                 // other fields have the value directly on the 'value' property
+                                // @ts-expect-error
                                 properties[label] = record[field.id].value
                             }
 
@@ -208,8 +212,11 @@ export class Model {
 
             geojsonResponse.metadata.fields = fields.map(f => {
                 return {
+                    // @ts-expect-error
                     name: toSnakeCase(f.label),
+                    // @ts-expect-error
                     type: mapFieldTypes(f.fieldType),
+                    // @ts-expect-error
                     alias: f.label,
                     // length: f.properties.width || null,
                 }

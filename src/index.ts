@@ -1,5 +1,5 @@
-import packageJson from './package.json' with {type: 'json'}
-import Model from './model/index.ts'
+import packageJson from '../package.json' with {type: 'json'}
+import Model from './model/index.js'
 
 export default {
     name: 'quickbase',
