@@ -7,9 +7,13 @@ products or apps.
 > #### This is a realtime ETL, allowing you to see changes to the Quickbase data after each app/service reload, or based on a refresh interval!
 > (Unless caching is used.)
 
-What is Koop?  Koop is an open source geospatial data server.  It is essentially an Extract-Transform-Load server that lets you
-pull data from one source and access it as a Geoservice, such as an ArcGIS FeatureLayer or WMS.  **Clearly** your data must contain
-geospatial coordinates so it can be mapped.
+**What is Koop?**  Koop is an open source geospatial data server.  It is essentially an Extract-Transform-Load server that lets you
+pull data from one source and access it as a Geoservice, such as an ArcGIS FeatureLayer or WMS.  **Clearly** your table data must contain
+geospatial coordinates in a field/column so it can be mapped.
+
+**What is Quickbase?**  [Quickbase](https://www.quickbase.com) is a successful low-code PaaS serving both as a cloud-database and app builder.  It can
+be used by developers/testers through the [Builder Program](https://www.quickbase.com/builder-program) if you sign up for an account.
+
 
 ### This Provider:
 1. Requests data from a Quickbase table.
