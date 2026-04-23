@@ -1,12 +1,15 @@
 # Koop Provider - Quickbase for ArcGIS
 
-#### [Provider Overview](#Provider Overview) | [Caveats](#Caveats) | [Usage](#Usage) | [How To Implement](#How To Implement) | [Usage](#Usage) | [Todo](#Todo) 
+#### [Provider Overview](#Provider-Overview) | [Caveats](#Caveats) | [Usage](#Usage) | [How-To-Implement](#How To Implement) | [Usage](#Usage) | [Todo](#Todo) 
+
+---
 
 Use this provider module with [Koop](https://koopjs.github.io/) to run a realtime ETL on Quickbase 
 data and access it as a Feature Service meeting the specification to use with ArcGIS and other 
 products or apps. 
 
 > #### This is a realtime ETL, allowing you to see changes to the Quickbase data after each app/service reload, or based on a refresh interval!
+>
 > (Unless caching is used.)
 
 **What is Koop?**  Koop is an open source geospatial data server.  It is essentially an Extract-Transform-Load server that lets you
