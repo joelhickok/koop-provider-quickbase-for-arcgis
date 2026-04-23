@@ -1,0 +1,36 @@
+{
+  "name": "koop-provider-quickbase",
+  "description": "Koop Provider that extracts data from Quickbase for use with ArcGIS or other consumers.",
+  "version": "1.0.1",
+  "author": "Joel Hickok",
+  "license": "MIT",
+  "keywords": [
+    "koop",
+    "arcgis",
+    "quickbase",
+    "esri",
+    "featureservice"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joelhickok/koop-provider-quickbase-for-arcgis.git"
+  },
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.61.4",
+    "@turf/bbox": "^7.3.5",
+    "@turf/bbox-polygon": "^7.3.5",
+    "quickbase": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/geojson": "^7946.0.16",
+    "express": "^5.2.1",
+    "geojson": "^0.5.0",
+    "ts-node": "^10.9.2"
+  }
+}
