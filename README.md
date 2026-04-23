@@ -34,12 +34,12 @@ be used by developers/testers through the [Builder Program](https://www.quickbas
 
 ### How To Implement:
 
-- Create a Koop project, aka build an instance.
-- Download the module and place it within your Koop app/instance.
-- Configure Koop to register this provider as a plugin.
-- Set up your .env file with token.
-- Deploy your Koop app with the module.
-- Access the Feature Service endpoint and add to your GIS software.
+1. Create a Koop project, aka build an instance.
+2. Download the module and place it within your Koop app/instance.
+3. Configure Koop to register this provider as a plugin.
+4. Set up your .env file with token.
+5. Deploy your Koop app with the module.
+6. Access the Feature Service endpoint and add to your GIS software.
 
 ---
 
@@ -47,17 +47,22 @@ be used by developers/testers through the [Builder Program](https://www.quickbas
 
 #### Anatomy of the URL
 
-- **URL Path:** The provider lives under the `/quickbase` directory, but uses conventional Feature Service directory names for the most part.
+This applies when using a FeatureLayer URL.  WMS is not documented or test yet
+
+- **URL Path:** From the URL root, the provider lives under the `/quickbase` directory, but uses conventional Feature Service directory names for the most part.
 - **Quickbase Realm:** The provider needs to know the name of your realm to access the data.  Place the name right after `/services` in the path.
-- **App ID & Table ID:** The IDs of the app where the table lives, and the ID of the Table itself, must be concatenated using a `-`.  E.g. `../services/qb-realm/abc123-abc456/...
-- **Service Type:** The URL ends with `/FeatureServer`, and must also contain the layer ID, such as 0 or 1 when accessing data, such as `/FeatureServer/0`.
+- **App ID & Table ID:** The IDs of the app where the table lives, and the ID of the Table itself, must be concatenated using a `-`.  E.g. `../services/qb-realm/abc123-abc456/...`
+- **Service Type:** The URL contains a type, such as `/FeatureServer`, and must also contain the layer ID, such as 0 or 1 when accessing data, such as `/FeatureServer/0`.
                           In most cases the ID will be 0 since there is one layer (advances could create a more sophisticated system using layer IDs, but does it make sense?).
 - **Query Parameters:** (only one is required)
   - _coords_fid_: Identify and append the Field ID from Quickbase of the field containing GCS coordinates.  e.g. `?coords_fid=9`
   - Others: Many parameters can be appended if they meet the spec, such as `&inSR=4326&outSR=3857` to ensure your web app puts your points at the right location.
 
 ##### Full Example:
-`https://domain.host/quickbase/rest/services/quickbase-realm-name/appId-tableId/FeatureServer/0/query?coordinates=9&inSR=4326&outSR=3857`
+> https://domain.host/quickbase/rest/services/quickbase-realm-name/appId-tableId/FeatureServer/0/query?coordinates=9&inSR=4326&outSR=3857
+
+This corresponds to a Quickbase URL of:
+> https://{quickbase-realm-name}.quickbase.com/nav/app/{appId}/table/{tableId}/
 
 #### Add Service To An App
 
@@ -68,6 +73,7 @@ import {featureLayer} from 'esri-leaflet'
 
 const layer = featureLayer({
     url: 'https://localhost:8443/quickbase/rest/services/builderprogram-username/bty227quq-bfy86afhg/FeatureServer/0?coords_fid=9&inSR=4326&outSR=3857',
+    //                                                         ^ QB Real Name     ^ App ID    ^ Table ID
     useCors: true,
     fields: ['*'],
     fetchAllFeatures: true,
