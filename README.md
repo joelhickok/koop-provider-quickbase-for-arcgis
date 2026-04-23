@@ -4,6 +4,8 @@
 
 ---
 
+### Provider Summary:
+
 Use this provider module with [Koop](https://koopjs.github.io/) to run a realtime ETL on Quickbase 
 data and access it as a Feature Service meeting the specification to use with ArcGIS and other 
 products or apps. 
@@ -21,7 +23,7 @@ be used by developers/testers through the [Builder Program](https://www.quickbas
 
 ---
 
-### Provider Overview:
+### Provider Goals:
 1. Requests data from a Quickbase table.
     * Must **specify** the Quickbase FID of the field containing coordinates in GCS.
 2. Transforms the data into normalized GeoJSON as a FeatureCollection.
