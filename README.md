@@ -1,5 +1,7 @@
 # Koop Provider - Quickbase for ArcGIS
 
+#### [Provider Overview](#Provider Overview) | [Caveats](#Caveats) | [Usage](#Usage) | [How To Implement](#How To Implement) | [Usage](#Usage) | [Todo](#Todo) 
+
 Use this provider module with [Koop](https://koopjs.github.io/) to run a realtime ETL on Quickbase 
 data and access it as a Feature Service meeting the specification to use with ArcGIS and other 
 products or apps. 
@@ -15,7 +17,7 @@ geospatial coordinates in a field/column so it can be mapped.
 be used by developers/testers through the [Builder Program](https://www.quickbase.com/builder-program) if you sign up for an account.
 
 
-### This Provider:
+### Provider Overview:
 1. Requests data from a Quickbase table.
     * Must **specify** the Quickbase FID of the field containing coordinates in GCS.
 2. Transforms the data into normalized GeoJSON as a FeatureCollection.
@@ -31,7 +33,7 @@ Koop Providers, including this one.
     could implemement the ability to access public Quickbase data without a token.
 - Some apps will require that your endpoint uses SSL, so for local testing, in those cases, you must run Koop using SSL or proxy the app.
 
-### Usage:
+### How To Implement:
 
 - Create a Koop project, aka build an instance.
 - Download the module and place it within your Koop app/instance.
@@ -40,7 +42,7 @@ Koop Providers, including this one.
 - Deploy your Koop app with the module.
 - Access the Feature Service endpoint and add to your GIS software.
 
-### Using the Service Endpoint:
+### Usage:
 
 #### Anatomy of the URL
 
@@ -82,9 +84,8 @@ const layer = featureLayer({
 // View your Quickbase data in realtime on the map!
 ```
 
-### TODO
+### Todo:
 
 1. Low priority: Ingest lines or polygons.  You would have to accurately store long strings in a Quickbase table.
 2. Fine tune compatibility with a range of apps, including the new AGOL Map Viewer.
 3. Test WMS and other service outputs. [See List Here](https://koopjs.github.io/docs/available-plugins/outputs)
-4. 
