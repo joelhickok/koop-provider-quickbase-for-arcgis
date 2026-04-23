@@ -73,7 +73,7 @@ import {featureLayer} from 'esri-leaflet'
 
 const layer = featureLayer({
     url: 'https://localhost:8443/quickbase/rest/services/builderprogram-username/bty227quq-bfy86afhg/FeatureServer/0?coords_fid=9&inSR=4326&outSR=3857',
-    //                                                         ^ QB Real Name     ^ App ID    ^ Table ID
+    //                                                         ^ QB Realm Name     ^ App ID    ^ Table ID                      ^ Coordinates FID
     useCors: true,
     fields: ['*'],
     fetchAllFeatures: true,
@@ -109,3 +109,5 @@ const layer = featureLayer({
 1. Low priority: Ingest lines or polygons.  You would have to accurately store long strings in a Quickbase table.
 2. Fine tune compatibility with a range of apps, including the new AGOL Map Viewer.
 3. Test WMS and other service outputs. [See List Here](https://koopjs.github.io/docs/available-plugins/outputs)
+4. Implement blocks to catch failures, such as when the spatial data is not a point, for example an array of points.
+
