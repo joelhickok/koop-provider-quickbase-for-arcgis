@@ -1,5 +1,5 @@
 export class ConfigurationError extends Error {
-    constructor(...params: string[]) {
+    constructor(...params) {
         super(...params)
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, ConfigurationError)

@@ -16,10 +16,14 @@
     "url": "git+https://github.com/joelhickok/koop-provider-quickbase-for-arcgis.git"
   },
   "type": "module",
-  "main": "src/index.ts",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --removeComments"
+    "dev": "npm run build --watch & SUPPRESS_NO_CONFIG_WARNING=true nodemon server.js",
+    "test": "vitest run --typecheck",
+    "test_watch": "vitest --typecheck",
+    "build": "node build.js",
+    "watch": "node build.js --watch"
+
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.61.4",
@@ -28,10 +32,12 @@
     "quickbase": "^6.0.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.6",
-    "@types/geojson": "^7946.0.16",
+    "@koopjs/koop-core": "^10.4.19",
+    "cors": "^2.8.6",
+    "esbuild": "0.28.0",
     "express": "^5.2.1",
     "geojson": "^0.5.0",
-    "ts-node": "^10.9.2"
+    "nodemon": "^3.1.14",
+    "vitest": "^4.1.5"
   }
 }

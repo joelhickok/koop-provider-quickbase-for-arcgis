@@ -1,14 +1,8 @@
-import {QuickBase, type QuickBaseRequestRunQuery} from 'quickbase'
+import {QuickBase} from 'quickbase'
 
-interface IQueryTableOptions {
-    quickbase: QuickBase,
-    tableId: string,
-    select?: number[] | undefined,
-    where?: string,
-}
 
-export default async function queryTable({quickbase, tableId, select, where}: IQueryTableOptions) {
-    const queryOptions: (QuickBaseRequestRunQuery & {returnAxios?: false}) = {
+export default async function queryTable({quickbase, tableId, select, where}) {
+    const queryOptions = {
         tableId,
         select,
     }
