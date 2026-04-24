@@ -5,6 +5,7 @@ import http from 'http'
 import https from 'https'
 import cors from 'cors'
 import Koop from '@koopjs/koop-core'
+import cache from '@koopjs/cache-memory'
 import express from 'express'
 import plugin from './build/koop-provider.quickbase.dev.js'
 
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || (SSL ? 8443 : 8080)
 
 // create a Koop app for the plugin to use
 const koop = new Koop()
+koop.register(cache, { size: 300 })
 koop.register(plugin)
 
 // create a regular old express app
@@ -42,8 +44,6 @@ if (SSL) {
 } else {
     server = http.createServer(app)
 }
-
-console.log(process.env.NODE_ENV)
 
 // Vercel serverless functions don't want 'listen' called in the server.js code
 if (process.env.NODE_ENV === 'development') {

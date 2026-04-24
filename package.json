@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.61.4",
+    "@koopjs/cache-memory": "^6.0.0",
     "@turf/bbox": "^7.3.5",
     "@turf/bbox-polygon": "^7.3.5",
     "quickbase": "^6.0.0"
