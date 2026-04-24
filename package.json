@@ -18,7 +18,7 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "dev": "npm run watch & SUPPRESS_NO_CONFIG_WARNING=true nodemon server.js",
+    "dev": "npm run watch & SUPPRESS_NO_CONFIG_WARNING=true NODE_ENV=development  nodemon server.js",
     "test": "vitest run",
     "test_watch": "vitest",
     "watch": "node build_dev.js --watch",

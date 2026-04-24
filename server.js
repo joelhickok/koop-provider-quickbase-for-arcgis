@@ -28,7 +28,7 @@ const corsOptions = {
     // optionsSuccessStatus: 200
 }
 
-app.use(cors(corsOptions))
+app.use(cors())
 
 /* Use Koop as middleware */
 app.use('/', koop.server)
@@ -43,8 +43,13 @@ if (SSL) {
     server = http.createServer(app)
 }
 
-// server.listen(PORT, () => {
-//     console.log(`Server running on http${SSL ? 's' : ''}://localhost:${PORT}`)
-// })
+console.log(process.env.NODE_ENV)
+
+// Vercel serverless functions don't want 'listen' called in the server.js code
+if (process.env.NODE_ENV === 'development') {
+    server.listen(PORT, () => {
+        console.log(`Server running on http${SSL ? 's' : ''}://localhost:${PORT}`)
+    })
+}
 
 export default server
