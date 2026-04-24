@@ -8,7 +8,8 @@
 `npm install --save @koopjs/koop-core koop-provider-quickbase`
 
 ```js
-// update your Koop index or server js
+// After creating your Koop project files, update
+// your Koop index or server js to add this provider
 
 // register the plugin with koop
 const provider = require('koop-provider-quickbase')
