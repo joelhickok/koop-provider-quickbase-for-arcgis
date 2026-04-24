@@ -30,8 +30,9 @@ export class Model {
             } else {
                 const geoserviceParams = req.query
 
-                console.log('geoserviceParams')
-                console.log(geoserviceParams)
+                if (!req.query?.coords_fid) {
+                    return callback(new ConfigurationError('A URL parameter named "coords_fid" is required'))
+                }
 
                 // get the tableId and the appId, which come concatenated by a '-'
                 const idParameters = req.params.id
@@ -46,7 +47,7 @@ export class Model {
                     appId,
                     tableId,
                     select: selectQuery?.split(',').map(d => Number(d)),
-                    coordinatesFID: req.query?.coords_fid || '9',
+                    coordinatesFID: req.query?.coords_fid,
                     isQuery: req.route.path.includes(':layer'),
                 }
 
@@ -156,10 +157,7 @@ export class Model {
                         ttl: 10000 // The TTL option is measured in seconds, it will be used to set the `maxAge` property in the LRU cache
                     }
 
-                    console.log(Object.keys(req))
-
                     await cacheInstance.insert(CACHE_KEY, geojsonResponse, options, err => {
-
                         console.log('CACHE ERROR: ', err)
                     })
 

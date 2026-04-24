@@ -6,6 +6,7 @@ import https from 'https'
 import cors from 'cors'
 import Koop from '@koopjs/koop-core'
 import cache from '@koopjs/cache-memory'
+import output from 'koop-output-geojson'
 import express from 'express'
 import plugin from './build/koop-provider.quickbase.dev.js'
 
@@ -17,6 +18,8 @@ const PORT = process.env.PORT || (SSL ? 8443 : 8080)
 
 // create a Koop app for the plugin to use
 const koop = new Koop()
+koop.register(output);
+
 koop.register(cache, { size: 300 })
 koop.register(plugin)
 

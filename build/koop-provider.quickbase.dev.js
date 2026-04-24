@@ -33803,6 +33803,7 @@ var package_default = {
     "@koopjs/cache-memory": "^6.0.0",
     "@turf/bbox": "^7.3.5",
     "@turf/bbox-polygon": "^7.3.5",
+    "koop-output-geojson": "^1.1.2",
     quickbase: "^6.0.0"
   },
   devDependencies: {
@@ -34078,8 +34079,9 @@ var Model = class {
         return callback(null, cached);
       } else {
         const geoserviceParams = req.query;
-        console.log("geoserviceParams");
-        console.log(geoserviceParams);
+        if (!req.query?.coords_fid) {
+          return callback(new ConfigurationError('A URL parameter named "coords_fid" is required'));
+        }
         const idParameters = req.params.id;
         const [appId, tableId] = idParameters?.split("-");
         const selectQuery = req.query?.select ? req.query?.select : null;
@@ -34088,7 +34090,7 @@ var Model = class {
           appId,
           tableId,
           select: selectQuery?.split(",").map((d) => Number(d)),
-          coordinatesFID: req.query?.coords_fid || "9",
+          coordinatesFID: req.query?.coords_fid,
           isQuery: req.route.path.includes(":layer")
         };
         const qbOptions = {
@@ -34162,7 +34164,6 @@ var Model = class {
             ttl: 1e4
             // The TTL option is measured in seconds, it will be used to set the `maxAge` property in the LRU cache
           };
-          console.log(Object.keys(req));
           await cacheInstance.insert(CACHE_KEY, geojsonResponse, options, (err) => {
             console.log("CACHE ERROR: ", err);
           });
