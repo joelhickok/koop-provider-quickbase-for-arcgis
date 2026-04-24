@@ -43,8 +43,8 @@ if (SSL) {
     server = http.createServer(app)
 }
 
-server.listen(PORT, () => {
-    console.log(`Server running on http${SSL ? 's' : ''}://localhost:${PORT}`)
-})
+// server.listen(PORT, () => {
+//     console.log(`Server running on http${SSL ? 's' : ''}://localhost:${PORT}`)
+// })
 
 export default server
