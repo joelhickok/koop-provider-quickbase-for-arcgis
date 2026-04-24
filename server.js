@@ -46,3 +46,5 @@ if (SSL) {
 server.listen(PORT, () => {
     console.log(`Server running on http${SSL ? 's' : ''}://localhost:${PORT}`)
 })
+
+export default server
