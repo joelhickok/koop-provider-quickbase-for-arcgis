@@ -6,7 +6,7 @@ import https from 'https'
 import cors from 'cors'
 import Koop from '@koopjs/koop-core'
 import express from 'express'
-import plugin from './build/koop-provider.quickbase.js'
+import plugin from './build/koop-provider.quickbase.dev.js'
 
 dotenvx.config()
 

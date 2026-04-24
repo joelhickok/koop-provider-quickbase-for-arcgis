@@ -6,8 +6,6 @@ import {ConfigurationError} from '../utils/errors.js'
 
 dotenvx.config()
 
-console.log('RODEO')
-
 export class Model {
     logger
 

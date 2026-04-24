@@ -18,12 +18,11 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "dev": "npm run build --watch & SUPPRESS_NO_CONFIG_WARNING=true nodemon server.js",
-    "test": "vitest run --typecheck",
-    "test_watch": "vitest --typecheck",
-    "build": "node build.js",
-    "watch": "node build.js --watch"
-
+    "dev": "npm run watch & SUPPRESS_NO_CONFIG_WARNING=true nodemon server.js",
+    "test": "vitest run",
+    "test_watch": "vitest",
+    "watch": "node build_dev.js --watch",
+    "build_production": "node build_production.js --watch"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.61.4",
