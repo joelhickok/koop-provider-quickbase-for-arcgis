@@ -2,7 +2,8 @@
 
 #### [Provider Summary](#Provider-Summary) | [Usage](#Usage) | [How To Implement](#How-To-Implement) | [Usage](#Usage) | [Caveats](#Caveats) | [Todo](#Todo) 
 
-[View Live Demo](https://joelhickok.github.io/koop-quickbase-demo/)
+<a href="[https://example.com](https://joelhickok.github.io/koop-quickbase-demo)" target="_blank" rel="noopener noreferrer">View Live Demo</a>
+
 
 ---
 
