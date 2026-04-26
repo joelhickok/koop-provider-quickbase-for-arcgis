@@ -1,7 +1,7 @@
 {
   "name": "koop-provider-quickbase",
   "description": "Koop Provider that extracts data from Quickbase for use with ArcGIS or other consumers.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Joel Hickok",
   "license": "MIT",
   "keywords": [
