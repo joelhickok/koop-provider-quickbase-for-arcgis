@@ -21,7 +21,7 @@ const options = {
     entryPoints: ['src/index.js'],
     bundle: true,
     platform: 'node',
-    outfile: './build/koop-provider.quickbase.prod.js',
+    outfile: 'build/koop-provider.quickbase.prod.js',
     minify: true,
     target: 'esnext',
     format: 'esm',

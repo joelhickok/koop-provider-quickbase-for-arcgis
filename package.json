@@ -27,8 +27,8 @@
     "dev": "npm run watch & SUPPRESS_NO_CONFIG_WARNING=true NODE_ENV=development  nodemon server.js",
     "test": "vitest run",
     "test_watch": "vitest",
-    "build_dev": "node ./build_dev.js",
-    "build_production": "node ./build_package.js"
+    "build_dev": "node build_dev.js",
+    "build_production": "node build_package.js"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.61.4",
