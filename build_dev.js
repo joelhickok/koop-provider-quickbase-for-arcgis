@@ -1,7 +1,5 @@
 import * as esbuild from 'esbuild'
 
-const watch = process.argv.some(arg => arg === '--watch')
-
 const ESM_REQUIRE_SHIM = `
 await (async () => {
   const { dirname } = await import("path");
@@ -23,16 +21,15 @@ const options = {
     entryPoints: ['src/index.js'],
     bundle: true,
     platform: 'node',
-    outfile: './build/koop-provider.quickbase.dev.js',
+    outfile: './build/koop-provider.quickbase.prod.js',
     minify: false,
     target: 'esnext',
     format: 'esm',
     banner: {js: ESM_REQUIRE_SHIM},
+    // drop: ['console', 'debugger'],
 }
 
-await esbuild.build(options)
+const ctx = await esbuild.context(options)
 
-if (watch) {
-    let ctx = await esbuild.context(options)
-    await ctx.watch()
-}
+await ctx.watch()
+console.log('Watching for changes...')

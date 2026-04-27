@@ -16,13 +16,19 @@
     "url": "git+https://github.com/joelhickok/koop-provider-quickbase-for-arcgis.git"
   },
   "type": "module",
-  "main": "server.js",
+  "main": "koop-provider.quickbase.prod.js",
+  "files": [
+    "dist/",
+    "src/**/*.js",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "dev": "npm run watch & SUPPRESS_NO_CONFIG_WARNING=true NODE_ENV=development  nodemon server.js",
     "test": "vitest run",
     "test_watch": "vitest",
-    "watch": "node ./build_dev.js --watch",
-    "build_production": "node ./build_production.js --watch"
+    "build_dev": "node ./build_dev.js",
+    "build_production": "node ./build_package.js"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.61.4",
