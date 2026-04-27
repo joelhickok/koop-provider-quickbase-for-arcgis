@@ -8,7 +8,7 @@ import Koop from '@koopjs/koop-core'
 import cache from '@koopjs/cache-memory'
 import output from 'koop-output-geojson'
 import express from 'express'
-import plugin from './build/koop-provider.quickbase.dev.js'
+import plugin from './dist/koop-provider.quickbase.dev.js'
 import handleRequest from './handler.js'
 
 dotenvx.config()
