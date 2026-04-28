@@ -16,7 +16,7 @@ export default function handleRequest(req, res) {
             <div class="card">
                 This is an instance of Koop used for demos.<br><br>
            
-                You must have the correct URL of a output service.
+                You must have the correct URL of an output service.
             </div>
         </div>
     `)
